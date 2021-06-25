@@ -8,19 +8,19 @@ const catalog = {
     cart: null,
     list: [
         {
-            id_product: 123,
-            product_name: 'Ноутбук',
-            price: 45600,
+            id_product: 1,
+            product_name: 'item1',
+            price: 100,
         },
         {
-            id_product: 456,
-            product_name: 'Мышка',
-            price: 1000,
+            id_product: 2,
+            product_name: 'item2',
+            price: 200,
         },
         {
-            id_product: 245,
-            product_name: 'Клавиатура',
-            price: 1500,
+            id_product: 3,
+            product_name: 'item3',
+            price: 300,
         }
     ],
 
@@ -112,10 +112,10 @@ const cart = {
     clrCartButton: null,
     goods: [
         {
-            id_product: 123,
-            product_name: 'Ноутбук',
-            price: 45600,
-            quantity: 2,
+            id_product: 1,
+            product_name: 'item1',
+            price: 100,
+            quantity: 5,
         },
     ],
 
@@ -130,6 +130,12 @@ const cart = {
 
         this.addEventHandlers();
         this.render();
+    },
+
+    getCartPrice() {
+        return this.goods.reduce(function (price, good) {
+            return price + good.price * good.quantity;
+        }, 0);
     },
 
     /**
@@ -167,7 +173,7 @@ const cart = {
             if (findInBasket) {
                 findInBasket.quantity++;
             } else {
-                this.goods.push({...product, quantity: 1});
+                this.goods.push({ ...product, quantity: 1 });
             }
             this.render();
         } else {
@@ -199,6 +205,7 @@ const cart = {
         this.goods.forEach(item => {
             this.cartBlock.insertAdjacentHTML('beforeend', this.renderCartItem(item));
         });
+        this.cartBlock.insertAdjacentHTML('beforeend', `Общая стоимость корзины: ${this.getCartPrice()}`);
     },
 
     /**
